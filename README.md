@@ -28,21 +28,21 @@ Verifica tu instalación ejecutando:
 3️⃣ Instalar dependencias
 - pip install -r requirements.txt
 
-🧪 Ejecución de pruebas
+## 🧪 Ejecución de pruebas
 Para ejecutar los tests, usa:
 - pytest
 
-📂 Estructura del proyecto
+## 📂 Estructura del proyecto
 
 📦 tu-repositorio
- ┣ 📂 src
- ┃ ┣ 📜 main.py
- ┣ 📂 tests
- ┃ ┣ 📜 test_main.py
- ┣ 📜 requirements.txt
- ┣ 📜 README.md
+- ┣ 📂 src
+- ┃ ┣ 📜 main.py
+- ┣ 📂 tests
+- ┃ ┣ 📜 test_main.py
+- ┣ 📜 requirements.txt
+- ┣ 📜 README.md
 
-🚀 Contribuir
+## 🚀 Contribuir
 - git pull origin main
 - git status
 - git add .
