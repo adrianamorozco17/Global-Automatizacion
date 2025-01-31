@@ -35,13 +35,13 @@ Para ejecutar los tests, usa:
 ## 📂 Estructura del proyecto
 
 📦 tu-repositorio
-- 📂 config
-- - - 📜 config.py
-- 📂 tests
-- - - 📜 test_consulta_usuario.py
-- 📜 conftest.py
-- 📜 README.md
-- 📜 requirements.txt
+ ┣ 📂 config
+ ┃ ┣ 📜 config.py
+ ┣ 📂 tests
+ ┃ ┣ 📜 test_consulta_usuario.py
+ ┃ ┣ 📜 conftest.py
+ ┣ 📜 README.md
+ ┣ 📜 requirements.txt
 
 ## 🚀 Contribuir
 - git pull origin main
