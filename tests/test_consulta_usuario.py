@@ -193,9 +193,22 @@ class TestConsulta:
 
         # Esperar a que la opción "-- Clear --" esté visible y sea clickeable
         wait = WebDriverWait(driver, 10)
-        none_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="Ninguna"]]')))
+        none_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="01"]]')))
         none_option.click()
         time.sleep(2)
+
+        self.enter_text(driver, By.XPATH, '//*[@id="input41-384"]', config.NOMBRED)
+        self.enter_text(driver, By.XPATH, '//*[@id="input43-386"]', config.PAPELLIDOD)
+        self.enter_text(driver, By.XPATH, '//*[@id="input45-388"]', config.SAPELLIDOD)
+        self.select_dropdown_option(driver, '//*[@id="comboboxId-390"]', '//div[@role="option" and .//span[text()="Hijo/a"]]')
+        driver.implicitly_wait(5)
+        date_input = driver.find_element(By.XPATH,'//*[@id="date-input-394"]')
+        # Ingresa la fecha manualmente (por ejemplo, 2000-01-30)
+        date_input.send_keys('01/18/1970')
+        time.sleep(8)
+        # Hacer clic en el elemento
+        date_input.click()
+        time.sleep(15)
 
         wait = WebDriverWait(driver, 10)
         save_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Guardar y continuar")]')))
@@ -203,10 +216,8 @@ class TestConsulta:
         driver.execute_script("arguments[0].scrollIntoView();", save_button)
         # Hacer clic en el botón
         save_button.click()
-
         time.sleep(15)
 
-        # Llamada a la función con el valor "Masculino" o "Femenino"
         pass
 
 # Ejecución del Test
