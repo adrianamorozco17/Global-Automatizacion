@@ -102,47 +102,56 @@ class TestConsulta:
         # Valida y completa el segundo formulario en el proceso de automatización.
         # Args: driver (webdriver): Instancia del navegador en uso.
         wait = WebDriverWait(driver, 10)
+
         # Ingreso de datos en el formulario de los Nombres
         self.enter_text(driver, By.XPATH, '//*[@id="input15-278"]', config.NOMBRE)
+
         # Ingreso de datos en el formulario del Primer Apellido
-        self.enter_text(driver, By.XPATH, '//*[@id="input17-280"]',config.PAPELLIDO )
+        self.enter_text(driver, By.XPATH, '//*[@id="input17-280"]', config.PAPELLIDO)
+
         # Ingreso de datos en el formulario del Segundo Apellido
         self.enter_text(driver, By.XPATH, '//*[@id="input19-282"]', config.SAPELLIDO)
+
         # Ingreso de correo electrónico
         email_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="input23-289"]')))
         email_field.clear()
         email_field.send_keys(config.EMAIL)
+
         # Verificar el valor ingresado
         entered_email = email_field.get_attribute("value")
         print(f"Email ingresado: {entered_email}")
+
         # Datos de la ciudad
         self.enter_text(driver, By.XPATH, '//*[@id="inputId-292"]', config.CIUDAD)
-        # Selección de la ciudad
+
+        # Selección de la ciudad (con una espera explícita)
         dropdown_option = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='BOGOTA']")
             )
         )
-        ActionChains(driver).move_to_element(dropdown_option).perform()
-        dropdown_option.click()
+        ActionChains(driver).move_to_element(dropdown_option).perform()  # Desplazarse al elemento
+        dropdown_option.click()  # Selección de la opción
+
         # Esperar y obtener valor de un campo oculto
         hidden_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input25-296"]')))
-        hidden_value = hidden_field.get_attribute(config.DEPARTAMENTO)
+        hidden_value = hidden_field.get_attribute(config.DEPARTAMENTO)  # Obtener valor de un campo oculto
+
         country_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input27-298"]')))
-        country_value = country_field.get_attribute(config.PAIS)
+        country_value = country_field.get_attribute(config.PAIS)  # Obtener valor de país
 
         # Ingreso de teléfono
         input_field = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="input33-304"]'))
         )
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", input_field)
-        driver.execute_script("arguments[0].click();", input_field)
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", input_field)  # Desplazar a la vista
+        driver.execute_script("arguments[0].click();", input_field)  # Hacer clic
         ActionChains(driver).move_to_element(input_field).click().send_keys(config.TELEFONO).perform()
 
         # Datos del evento
         self.enter_text(driver, By.XPATH, '//*[@id="inputId-307"]', config.EVENTO)
 
-        # Selección del evento
+        # Selección del evento (esperar la opción visible y hacer clic)
         dropdown_option = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='FERIA DEL LIBRO 2024']")
@@ -155,70 +164,64 @@ class TestConsulta:
         checkbox = WebDriverWait(driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@class="slds-checkbox_faux"]'))
         )
-        driver.execute_script("arguments[0].scrollIntoView();", checkbox)
+        driver.execute_script("arguments[0].scrollIntoView();", checkbox)  # Desplazar a la vista
         ActionChains(driver).move_to_element(checkbox).click().perform()
 
         # Hacer clic en el botón de siguiente
         batons = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-custom-lwc/slot/c-global-onboarding-custom-button-cmp/div/button'))
         )
-        batons.click()
+        batons.click()  # Hacer clic en el botón
         print("registro datos de contacto")
         time.sleep(15)
 
+
     def personal_form(self, driver):
+        # Ingresar la fecha en el campo de fecha usando el input de tipo date
+        self.enter_text(driver, By.XPATH, "//input[@data-id='date-picker-slds-input']", '12/28/1984')
 
-        date_input = driver.find_element(By.XPATH, "//input[@data-id='date-picker-slds-input']")
-        date_input.send_keys('12/28/1984')
-        # Seleccionar opción en combobox
-        dropdown = driver.find_element(By.XPATH, '//*[@id="comboboxId-351"]')
-        driver.execute_script("arguments[0].scrollIntoView();", dropdown)
-        dropdown.click()
+        # Seleccionar opción en un combobox (desplegable) para seleccionar un valor
+        self.select_dropdown_option(driver, '//*[@id="comboboxId-351"]', '//div[@role="option" and @data-value="Masculino"]')
+        time.sleep(2)  # Esperar 2 segundos para que la acción se complete correctamente
 
-        # Esperar a que aparezcan las opciones en la lista desplegable
-        wait = WebDriverWait(driver, 10)
-        option_xpath = f'//div[@role="option" and @data-value="Masculino"]'
-        option = wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath)))
-        time.sleep(2)
+        # Hacer clic en la opción deseada (un radio button con un valor específico)
+        radio = self.wait_for_element(driver, By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")
+        driver.execute_script("arguments[0].click();", radio)  # Usar Javascript para hacer clic en el radio button
 
-        # Hacer clic en la opción deseada
-        option.click()
-        # Encuentra el radio button usando el selector de clase
-        radio = driver.find_element(By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")
-        driver.execute_script("arguments[0].click();", radio)
-
+        # Hacer clic en un dropdown específico, ubicado por su XPath
         dropdown = driver.find_element(By.XPATH, '//*[@id="comboboxId-376"]')
-        driver.execute_script("arguments[0].scrollIntoView();", dropdown)
-        dropdown.click()
+        driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplazar el dropdown a la vista si es necesario
+        dropdown.click()  # Hacer clic para desplegar las opciones
 
-        # Esperar a que la opción "-- Clear --" esté visible y sea clickeable
+        # Esperar hasta que una opción específica en el dropdown sea clickeable
         wait = WebDriverWait(driver, 10)
-        none_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="01"]]')))
-        none_option.click()
+        one_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="01"]]')))
+        one_option.click()  # Hacer clic en la opción "01"
         time.sleep(2)
 
+        # Ingresar texto en varios campos de texto del formulario (nombre, apellido, etc.)
         self.enter_text(driver, By.XPATH, '//*[@id="input41-384"]', config.NOMBRED)
         self.enter_text(driver, By.XPATH, '//*[@id="input43-386"]', config.PAPELLIDOD)
         self.enter_text(driver, By.XPATH, '//*[@id="input45-388"]', config.SAPELLIDOD)
+
+        # Seleccionar una opción del combobox para el campo "Hijo/a"
         self.select_dropdown_option(driver, '//*[@id="comboboxId-390"]', '//div[@role="option" and .//span[text()="Hijo/a"]]')
-        driver.implicitly_wait(5)
+
+        # Ingresar la fecha de nacimiento en el campo correspondiente
         date_input = driver.find_element(By.XPATH,'//*[@id="date-input-394"]')
-        # Ingresa la fecha manualmente (por ejemplo, 2000-01-30)
+        # Ingresa la fecha manualmente (por ejemplo, 01/18/1970
         date_input.send_keys('01/18/1970')
         time.sleep(8)
         # Hacer clic en el elemento
-        date_input.click()
-        time.sleep(15)
-
-        wait = WebDriverWait(driver, 10)
-        save_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Guardar y continuar")]')))
-        # Hacer scroll hasta el botón (opcional, si está fuera de la vista)
-        driver.execute_script("arguments[0].scrollIntoView();", save_button)
-        # Hacer clic en el botón
-        save_button.click()
-        time.sleep(15)
-
+        date_input.click()# Esperar 8 segundos para asegurar que la fecha se haya ingresado correctamente
+    
+        # Hacer clic en el botón "Guardar y continuar"
+        save_button = self.wait_for_element(driver, By.XPATH, '//button[contains(text(), "Guardar y continuar")]')
+        self.scroll_into_view(driver, save_button)  # Desplazar el botón a la vista si no está visible
+        save_button.click()  # Hacer clic en el botón para continuar
+        time.sleep(15)  # Esperar 15 segundos para asegurar que la acción se haya completado
         pass
+
 
 # Ejecución del Test
 def test_consulta(driver):
@@ -227,9 +230,3 @@ def test_consulta(driver):
     test.complete_form(driver)
     test.validate_second_form(driver)
     test.personal_form (driver)
-
-
-
-
-
-
