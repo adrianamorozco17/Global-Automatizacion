@@ -34,6 +34,7 @@ Para ejecutar los tests, usa:
 
 ## 📂 Estructura del proyecto
 
+```plaintext
 📦 tu-repositorio
  ┣ 📂 config
  ┃ ┣ 📜 config.py
@@ -42,7 +43,7 @@ Para ejecutar los tests, usa:
  ┃ ┣ 📜 conftest.py
  ┣ 📜 README.md
  ┣ 📜 requirements.txt
-
+ 
 ## 🚀 Contribuir
 - git pull origin main
 - git status
