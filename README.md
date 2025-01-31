@@ -28,12 +28,19 @@ Verifica tu instalación ejecutando:
 3️⃣ Instalar dependencias
 - pip install -r requirements.txt
 
+## 🚀 Actualizar el proyecto
+- git pull origin main
+- git status
+- git add .
+- git commit -m "Descripción de los cambios"
+- git push origin main
+- git pull origin main
+
 ## 🧪 Ejecución de pruebas
 Para ejecutar los tests, usa:
 - pytest
 
 ## 📂 Estructura del proyecto
-
 ```plaintext
 📦 tu-repositorio
  ┣ 📂 config
@@ -43,11 +50,3 @@ Para ejecutar los tests, usa:
  ┃ ┣ 📜 conftest.py
  ┣ 📜 README.md
  ┣ 📜 requirements.txt
- 
-## 🚀 Contribuir
-- git pull origin main
-- git status
-- git add .
-- git commit -m "Descripción de los cambios"
-- git push origin main
-- git pull origin main
