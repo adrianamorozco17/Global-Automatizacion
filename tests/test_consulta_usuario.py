@@ -181,8 +181,15 @@ class TestConsulta:
         self.enter_text(driver, By.XPATH, "//input[@data-id='date-picker-slds-input']", '12/28/1984')
 
         # Seleccionar opción en un combobox (desplegable) para seleccionar un valor
-        self.select_dropdown_option(driver, '//*[@id="comboboxId-351"]', '//div[@role="option" and @data-value="Masculino"]')
-        time.sleep(2)  # Esperar 2 segundos para que la acción se complete correctamente
+        dropdown = driver.find_element(By.XPATH, '//*[@id="comboboxId-351"]')
+        driver.execute_script("arguments[0].scrollIntoView();", dropdown)
+        dropdown.click()
+
+        wait = WebDriverWait(driver, 10)
+        option_xpath = f'//div[@role="option" and @data-value="Masculino"]'
+        option = wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath)))
+        time.sleep(2)
+        option.click()
 
         # Hacer clic en la opción deseada (un radio button con un valor específico)
         radio = self.wait_for_element(driver, By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")
