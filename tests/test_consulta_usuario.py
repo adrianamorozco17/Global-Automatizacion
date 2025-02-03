@@ -22,9 +22,9 @@ def driver():
     # Se encarga de inicializar el navegador antes de la prueba y cerrarlo después de su ejecución.
     service = Service(ChromeDriverManager().install())
     options = Options()
-    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-gpu")  # Desactiva el uso de la GPU en el navegador
     driver = webdriver.Chrome(service=service, options=options)
-    yield driver
+    yield driver  # Devuelve 'driver' y pausa la función hasta que termine su uso.
     driver.quit()
 
 class TestConsulta:
@@ -132,8 +132,9 @@ class TestConsulta:
         )
         ActionChains(driver).move_to_element(dropdown_option).perform()  # Desplazarse al elemento
         dropdown_option.click()  # Selección de la opción
+        
 
-        # Esperar y obtener valor de un campo oculto
+        # validar que el departamento y el pais son los correctos
         hidden_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input25-296"]')))
         hidden_value = hidden_field.get_attribute(config.DEPARTAMENTO)  # Obtener valor de un campo oculto
 
@@ -226,9 +227,25 @@ class TestConsulta:
         save_button = self.wait_for_element(driver, By.XPATH, '//button[contains(text(), "Guardar y continuar")]')
         self.scroll_into_view(driver, save_button)  # Desplazar el botón a la vista si no está visible
         save_button.click()  # Hacer clic en el botón para continuar
-        time.sleep(15)  # Esperar 15 segundos para asegurar que la acción se haya completado
+        time.sleep(5)
         pass
 
+        #Ingresar perfil financiero
+    def perfil_financiero(self, driver):
+
+        #Promedio ingresos mensuales
+       #dropdown_select = driver.find_element(By.XPATH, "//span[contains(@class, 'slds-icon-utility-down')]")
+       #driver.execute_script("arguments[0].scrollIntoView();", dropdown_select)  # Desplazar el dropdown a la vista si es necesario
+       #dropdown_select.click()  # Hacer clic para desplegar las opciones
+        input_box = driver.find_element(By.ID, "comboboxId-520")
+        input_box.click()
+
+        # Esperar hasta que una opción específica en el dropdown sea clickeable
+        wait = WebDriverWait(driver, 10)
+        select = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="4.000.000 a 8.000.000"]]')))
+        select.click()  # Hacer clic en la opción "01"
+        time.sleep(2)
+    pass
 
 # Ejecución del Test
 def test_consulta(driver):
@@ -237,3 +254,4 @@ def test_consulta(driver):
     test.complete_form(driver)
     test.validate_second_form(driver)
     test.personal_form (driver)
+    test.perfil_financiero (driver)
