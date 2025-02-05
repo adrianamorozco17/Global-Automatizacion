@@ -1,7 +1,9 @@
+from concurrent.futures import wait
 import pytest # Framework de pruebas en Python
 from selenium import webdriver # Controlador web para automatización de navegadores
 from selenium.webdriver.chrome.options import Options # Opciones de configuración para Chrome
 from selenium.webdriver.chrome.service import Service # Servicio para administrar el WebDriver
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By # Permite localizar elementos en la página
 from selenium.webdriver.support import expected_conditions as EC # Condiciones de espera explícitas
 from selenium.webdriver.support.ui import WebDriverWait # Manejo de esperas en Selenium
@@ -9,6 +11,7 @@ from selenium.webdriver.common.action_chains import ActionChains  # Permite real
 from webdriver_manager.chrome import ChromeDriverManager # Administra automáticamente el controlador de Chrome
 import time # Manejo de pausas en la ejecución de pruebas
 import random
+from selenium.common.exceptions import TimeoutException
 
 from config import config # Librería para generar valores aleatorios
 
@@ -232,23 +235,94 @@ class TestConsulta:
 
         #Ingresar perfil financiero
     def perfil_financiero(self, driver):
+        # Esperar a que el combobox esté presente
+        wait = WebDriverWait(driver, 30)
+        elements = driver.find_elements(By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[1]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]")
+        print(f"Elementos encontrados: {len(elements)}")
+        if not elements:
+            raise Exception("El elemento no fue encontrado en la página")
 
-        #Promedio ingresos mensuales
-       #dropdown_select = driver.find_element(By.XPATH, "//span[contains(@class, 'slds-icon-utility-down')]")
-       #driver.execute_script("arguments[0].scrollIntoView();", dropdown_select)  # Desplazar el dropdown a la vista si es necesario
-       #dropdown_select.click()  # Hacer clic para desplegar las opciones
-        input_box = driver.find_element(By.ID, "comboboxId-520")
-        input_box.click()
+        # Esperar hasta que el combobox sea visible y hacer clic
+        question_label = wait.until(EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[1]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]")))
+        question_label.click()
+        question_label.send_keys("0 a 4.000.000")
 
-        # Esperar hasta que una opción específica en el dropdown sea clickeable
-        wait = WebDriverWait(driver, 10)
-        select = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="4.000.000 a 8.000.000"]]')))
-        select.click()  # Hacer clic en la opción "01"
+        # Selección de la opción en el desplegable (espera explícita)
+        dropdown_option = wait.until(EC.visibility_of_element_located(
+            (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='0 a 4.000.000']")
+        ))
+
+        # Desplazarse al elemento antes de hacer clic
+        ActionChains(driver).move_to_element(dropdown_option).perform()
+        dropdown_option.click()  # Selección de la opción
         time.sleep(2)
-    pass
+        # Cerrar el navegador después de la ejecución
+        question_emple = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[2]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]"))
+        )
+        question_emple.click()
+        question_emple.send_keys("Empleado")
 
-# Ejecución del Test
-def test_consulta(driver):
+        # Esperar a que la opción aparezca en el desplegable y seleccionarla
+        option_emple = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='Empleado']")
+            )
+        )
+        ActionChains(driver).move_to_element(option_emple).perform()  # Desplazarse al elemento
+        option_emple.click()  # Seleccionar la opción# Ejecución del Test
+        currency_input = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-currency[1]/slot[1]/c-masked-input[1]/div[1]/div[2]/input[1]"))
+        )
+        currency_input.click()  # Hacer clic en el campo
+        currency_input.send_keys("1000000")  # Ingresar el valor 1.000.000
+        time.sleep(2)
+
+        checkbox_xpaths = [
+            "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-multiselect[1]/slot[1]/c-checkbox-group[1]/div[1]/fieldset[1]/div[1]/div[1]/label[1]/span[1]",
+            "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-multiselect[1]/slot[1]/c-checkbox-group[1]/div[1]/fieldset[1]/div[1]/div[4]/label[1]/span[1]",
+            "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-multiselect[1]/slot[1]/c-checkbox-group[1]/div[1]/fieldset[1]/div[1]/div[6]/label[1]/span[1]"
+        ]
+
+        # Recorrer la lista y seleccionar cada checkbox con scroll automático
+        for xpath in checkbox_xpaths:
+            checkbox = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            
+            # Hacer scroll hasta el checkbox
+            driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", checkbox)
+
+            # Alternativa: Simular flechas de teclado para garantizar el desplazamiento
+            ActionChains(driver).move_to_element(checkbox).perform()
+
+            # Esperar a que el checkbox sea clickeable y hacer clic
+            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
+        image_xpath = "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-multiselect[2]/slot[1]/c-checkbox-image-group[1]/div[1]/div[1]/fieldset[1]/div[1]/div[2]/label[1]/div[1]"
+
+        # Esperar a que la imagen esté presente
+        image_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, image_xpath)))
+
+        # Hacer scroll hasta la imagen
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", image_element)
+
+        # Esperar a que la imagen sea clickeable y hacer clic
+        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, image_xpath))).click()
+
+        # XPath del botón a hacer clic
+        button_xpath = "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-custom-lwc[1]/slot[1]/c-global-onboarding-custom-button-cmp[1]/div[1]/button[2]"
+
+        # Esperar a que el botón esté presente en el DOM
+        button_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, button_xpath)))
+
+        # Hacer scroll hasta el botón para asegurarnos de que sea visible
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button_element)
+
+        # Esperar a que el botón sea clickeable y hacer clic
+        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, button_xpath))).click()
+        time.sleep(20)
+        pass
+
+
+def test_consulta(driver: WebDriver):
     test = TestConsulta()
     test.login(driver, config.USERNAME, config.PASSWORD)
     test.complete_form(driver)
