@@ -171,11 +171,11 @@ class TestConsulta:
     def perfil_financiero(self, driver):
         wait = WebDriverWait(driver, 30)  # Espera explícita de 30 segundos para que los elementos estén disponibles.
         elements = driver.find_elements(By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[1]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]")  
-        print(f"Elementos encontrados: {len(elements)}")  # Imprime la cantidad de elementos encontrados.
+        print("Elementos encontrados: {len(elements)}")  # Imprime la cantidad de elementos encontrados.
         promedio = wait.until(EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[1]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]")))  
         # Espera hasta que el campo de texto sea clickeable.
         promedio.click()  # Hace clic en el campo de texto.
-        promedio.send_keys("0 a 4.000.000")  # Ingresa el texto "0 a 4.000.000" en el campo de texto.
+        promedio.send_keys(config.PROMEDIO)  # Ingresa el texto "0 a 4.000.000" en el campo de texto.
         # Selección de la opción en el desplegable (espera explícita)
         promedio_option = wait.until(EC.visibility_of_element_located(
         (
@@ -198,12 +198,12 @@ class TestConsulta:
         )
         ActionChains(driver).move_to_element(empleado_option_text).perform() # Desplazarse al elemento 'Empleado' para asegurarse de que esté visible antes de hacer clic
         empleado_option_text.click() # Hacer clic en la opción 'Empleado'
-        currency_input = WebDriverWait(driver, 10).until(   # Espera explícita hasta que el campo de entrada de moneda sea clickeable
+        ahorros_input = WebDriverWait(driver, 10).until(   # Espera explícita hasta que el campo de entrada de moneda sea clickeable
             EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-currency[1]/slot[1]/c-masked-input[1]/div[1]/div[2]/input[1]"))
         )
-        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", currency_input)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
-        currency_input.click() # Hacer clic en el campo de entrada de moneda para activarlo
-        currency_input.send_keys("1000000") # Ingresar el valor de 1.000.000 en el campo
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", ahorros_input)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
+        ahorros_input.click() # Hacer clic en el campo de entrada de moneda para activarlo
+        ahorros_input.send_keys(config.VALOR_APROX) # Ingresar el valor de 1.000.000 en el campo
         time.sleep(2) # Esperar 2 segundos para asegurar que el valor se haya ingresado correctamente
         checkbox_xpaths = [  # Lista de XPaths para los checkboxes, que están ubicados en diferentes partes de la página web
             # XPath para el primer checkbox: Localizado en un grupo de selección múltiple
@@ -238,10 +238,12 @@ class TestConsulta:
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, element_xpath)))  # Esperar a que el elemento esté presente en el DOM        
         driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element) # Hacer scroll hasta el elemento utilizando JavaScript
         # XPath del elemento que contiene el texto a verificar
+        time.sleep(3)
         text_xpath = "//*[@id='brandBand_2']/div/div/div/div/c-gsv-data-comparador-english/div/article/div[2]/vlocity_ins-omniscript-step/div[3]/slot/vlocity_ins-omniscript-custom-lwc[2]/slot/c-global-onboarding-comparador-cmp/main/section[1]/c-global-onboarding-product-card-cmp/article/header/div/h2"
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, text_xpath))) # Esperar a que el elemento esté presente
         element_text = element.text # Obtener el texto del elemento
         element_text == "Solución educativa"
+        time.sleep(5)
         # XPath del botón al que se debe hacer clic
         button_xpath = "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-data-comparador-english/div/article/div[2]/vlocity_ins-omniscript-step/div[3]/slot/vlocity_ins-omniscript-custom-lwc[2]/slot/c-global-onboarding-comparador-cmp/main/section[1]/c-global-onboarding-product-card-cmp/article/section/div[1]/button"
         button_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, button_xpath))) # Esperar a que el botón esté presente
@@ -252,9 +254,9 @@ class TestConsulta:
 
 def test_consulta(driver: WebDriver):
         test = TestConsulta() # Crear una instancia de la clase TestConsulta, que contiene los métodos necesarios para interactuar con la página web.
-        test.login(driver, config.USERNAME, config.PASSWORD) # Llamada al método login para iniciar sesión en la aplicación con el nombre de usuario y contraseña proporcionados en el archivo de configuración.
+        test.login(driver, config.USERNAME, config.PASSWORD)  #Llamada al método login para iniciar sesión en la aplicación con el nombre de usuario y contraseña proporcionados en el archivo de configuración.
         test.complete_form(driver) # Llamada al método complete_form para completar el formulario principal de la aplicación utilizando el driver de Selenium.
         test.validate_second_form(driver) # Llamada al método validate_second_form para verificar que el segundo formulario o paso de la aplicación se haya cargado correctamente.
         test.personal_form(driver) # Llamada al método personal_form para completar el formulario con la información personal del usuario.
         test.perfil_financiero(driver) # Llamada al método perfil_financiero para completar o validar el perfil financiero del usuario en la aplicación.
-        test.metas_fiancieras(driver) # Llamada al método metas_finaciera para completar o validar el metas finaciera.
+        test.metas_fiancieras(driver) # Llamada al método metas_financiera para completar o validar el metas financiera.
