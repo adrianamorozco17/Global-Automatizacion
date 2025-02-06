@@ -187,7 +187,9 @@ class TestConsulta:
         empleado_option = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[2]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]"))
         )  # Espera hasta que el campo de selección de "Empleado" sea clickeable.
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", empleado_option)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
         empleado_option.click()  # Hace clic en el campo de selección.
+        time.sleep(2)
         empleado_option.send_keys("Empleado")  # Ingresa "Empleado" en el campo.
         empleado_option_text = WebDriverWait(driver, 10).until( # Espera explícita hasta que la opción 'Empleado' sea visible en la lista
             EC.visibility_of_element_located(
@@ -199,6 +201,7 @@ class TestConsulta:
         currency_input = WebDriverWait(driver, 10).until(   # Espera explícita hasta que el campo de entrada de moneda sea clickeable
             EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-currency[1]/slot[1]/c-masked-input[1]/div[1]/div[2]/input[1]"))
         )
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", currency_input)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
         currency_input.click() # Hacer clic en el campo de entrada de moneda para activarlo
         currency_input.send_keys("1000000") # Ingresar el valor de 1.000.000 en el campo
         time.sleep(2) # Esperar 2 segundos para asegurar que el valor se haya ingresado correctamente
