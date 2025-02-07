@@ -101,15 +101,10 @@ class PersonalFormPage(BasePage):
         dropdown_xpaths = "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[3]/slot/c-combobox/div/div/div[2]/div[1]/div/input"      
         dropdown_inputs = wait.until(EC.element_to_be_clickable((By.XPATH, dropdown_xpaths))) # Espera hasta que el campo desplegable (dropdown) esté disponible para hacer clic      
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", dropdown_inputs) # Desplaza la vista hacia el dropdown para asegurarse de que sea visible en pantalla
-
-        # Hace clic en el campo desplegable para abrir las opciones
-        dropdown_inputs.click()
-
-        # Ingresa el valor correspondiente al calendario escolar en el campo del dropdown
-        self.enter_text(By.XPATH, dropdown_xpaths, config.CALENDARIOE)  # Datos de la ciudad
-
-
-        opciones = WebDriverWait(self.driver, 10).until(  # Selección de la ciudad (con una espera explícita)
+        dropdown_inputs.click() # Hace clic en el campo desplegable para mostrar las opciones disponibles       
+        self.enter_text(By.XPATH, dropdown_xpaths, config.CALENDARIOE) # Ingresa el valor correspondiente al calendario escolar en el campo del dropdown
+       # Espera hasta que la opción "Calendario A (Enero - Diciembre)" sea visible en el desplegable
+        opciones = WebDriverWait(self.driver, 10).until(  
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='Calendario A (Enero - Diciembre)']")
             )
