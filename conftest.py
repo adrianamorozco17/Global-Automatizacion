@@ -1,14 +1,17 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-@pytest.fixture(scope="function")
-def driver():
+def setup_driver():
     service = Service(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
+    options = Options()
     options.add_argument("--disable-gpu")
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.maximize_window()
+    return webdriver.Chrome(service=service, options=options)
+
+@pytest.fixture
+def driver():
+    driver = setup_driver()
     yield driver
     driver.quit()
