@@ -20,3 +20,5 @@ PAPELLIDOD= 'Santos'
 SAPELLIDOD= 'torrez'
 PROMEDIO= "0 a 4.000.000"
 VALOR_APROX= "1000000"
+ESCOLARIDAD = "Primero"
+CALENDARIOE = "Calendario A (Enero - Diciembre)"
