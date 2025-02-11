@@ -24,24 +24,31 @@ class FinancieroFormPage(BasePage):
         ))  # Espera hasta que la opción "0 a 4.000.000" sea visible.
         ActionChains(self.driver).move_to_element(promedio_option).perform()  # Desplaza el mouse sobre la opción.
         promedio_option.click()  # Hace clic en la opción seleccionada.
-        time.sleep(2) # Espera de 2 segundos antes de continuar con la siguiente acción para permitir que el navegador procese la información
-        empleado_option = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[2]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]"))
-        )  # Espera hasta que el campo de selección de "Empleado" sea clickeable.
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", empleado_option)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
-        empleado_option.click()  # Hace clic en el campo de selección.
-        time.sleep(2)
+        # Esperar a que el campo sea clickeable
+        empleado_option = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH,
+            "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input"))
+        )
+        # Hacer scroll hasta el elemento
+        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",empleado_option)
+        time.sleep(1)  # Pausa para evitar que otro elemento bloquee el clic
+        actions = ActionChains(self.driver)
+        actions.move_to_element(empleado_option).click().perform()
+        time.sleep(1)  # Pausa para evitar que otro elemento bloquee el clic
+        # Hacer clic en el campo para abrir la lista
         empleado_option.send_keys("Empleado")  # Ingresa "Empleado" en el campo.
-        empleado_option_text = WebDriverWait(self.driver, 10).until( # Espera explícita hasta que la opción 'Empleado' sea visible en la lista
+        empleado_option_text = WebDriverWait(self.driver, 10).until(
+            # Espera explícita hasta que la opción 'Empleado' sea visible en la lista
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='Empleado']")
             )
         )
-        ActionChains(self.driver).move_to_element(empleado_option_text).perform() # Desplazarse al elemento 'Empleado' para asegurarse de que esté visible antes de hacer clic
         empleado_option_text.click() # Hacer clic en la opción 'Empleado'
+        time.sleep(1)  # Pausa para evitar que otro elemento bloquee el clic
         ahorros_input = WebDriverWait(self.driver, 10).until(   # Espera explícita hasta que el campo de entrada de moneda sea clickeable
             EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-currency[1]/slot[1]/c-masked-input[1]/div[1]/div[2]/input[1]"))
         )
+
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", ahorros_input)  # Hacer scroll hasta el checkbox para asegurarse de que está visible en la pantalla
         ahorros_input.click() # Hacer clic en el campo de entrada de moneda para activarlo
         ahorros_input.send_keys(config.VALOR_APROX) # Ingresar el valor de 1.000.000 en el campo
