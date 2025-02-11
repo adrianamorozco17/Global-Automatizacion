@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait # Manejo de esperas en S
 from selenium.webdriver.support import expected_conditions as EC # Condiciones de espera explícitas
 import time
 from config import config
-from utils.helpers import generar_identificacion_aleatoria
 from selenium.webdriver.common.action_chains import ActionChains  # Permite realizar interacciones avanzadas
 
 
