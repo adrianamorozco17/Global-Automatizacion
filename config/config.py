@@ -6,9 +6,9 @@ PASSWORD = "+18Stavros"
 
 # Otros valores configurables
 ASESOR = "PROYECTA-T LTDA-BOGOTA"
-NOMBRE= "TEST"
-PAPELLIDO="TEST"
-SAPELLIDO= "TEST"
+NOMBRE= "Juan"
+PAPELLIDO="Juanito"
+SAPELLIDO= "Gomez"
 EMAIL= "test@example.com"
 CIUDAD= "BOGOTA"
 DEPARTAMENTO= "DISTRITO CAPITAL"

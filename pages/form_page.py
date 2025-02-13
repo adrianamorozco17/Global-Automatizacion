@@ -16,21 +16,28 @@ class FormPage(BasePage):
 
         # Seleccionar opción en el dropdown
         self.select_dropdown_option(
-            (By.XPATH, '//*[@id="comboboxId-211"]'),
+            (By.XPATH, "//input[@role='combobox' and starts-with(@aria-controls, 'combobox-list')]"),
             (By.XPATH, '//div[@role="option" and .//span[text()="CEDULA DE CIUDADANIA"]]')
         )
-
         # Generar e ingresar número de identificación aleatorio
         numero_identificacion = generar_identificacion_aleatoria()
-        self.enter_text(By.XPATH, '//*[@id="input1-214"]', numero_identificacion)
+        self.enter_text(By.XPATH, "//input[contains(@class, 'vlocity-input') and @type='text']", numero_identificacion)
 
-        # Ingresar nombre del asesor
-        self.enter_text(By.XPATH, '//*[@id="inputId-227"]', config.ASESOR)
+       # Ingresar texto en el input del combobox
+        self.enter_text(
+            By.XPATH,
+            "//input[contains(@class, 'slds-input') and @role='combobox' and contains(@aria-autocomplete, 'list')]",
+            config.ASESOR
+        )
 
-        # Esperar y seleccionar una opción en el dropdown
-        dropdown_option = self.wait_for_element(By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and contains(text(), 'PROYECTA-T LTDA-BOGOTA')]")
+        # Esperar y seleccionar la opción en el dropdown
+        dropdown_option = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, '//div[@role="option" and contains(.//span, "PROYECTA-T LTDA-BOGOTA")]')
+            )
+        )
 
-        # Mueve el cursor hasta la opción y selecciona
+        # Mover el cursor hasta la opción y seleccionarla
         ActionChains(self.driver).move_to_element(dropdown_option).perform()
         dropdown_option.click()
 
@@ -45,9 +52,27 @@ class FormPage(BasePage):
         # Valida y completa el segundo formulario en el proceso de automatización.
         # Args: driver (webdriver): Instancia del navegador en uso.
         wait = WebDriverWait(self.driver, 10)  # Espera explícita hasta que el formulario esté listo para ser validado.
-        self.enter_text(By.XPATH, '//*[@id="input15-278"]', config.NOMBRE) # Ingreso de datos en el formulario de los Nombres
-        self.enter_text(By.XPATH, '//*[@id="input17-280"]', config.PAPELLIDO) # Ingreso de datos en el formulario del Primer Apellido
-        self.enter_text(By.XPATH, '//*[@id="input19-282"]', config.SAPELLIDO) # Ingreso de datos en el formulario del Segundo Apellido
+        self.enter_text(
+            By.XPATH,
+            "//div[contains(@class, 'slds-form-element__control')]//input[contains(@class, 'slds-input') and @type='text']",
+            config.NOMBRE
+        )  # Ingreso de datos en el formulario de los Nombres
+        # Encuentra el elemento para "Primer Apellido"
+       # Espera explícita hasta que el elemento esté presente en el DOM
+        element = self.driver.find_element(By.XPATH,"//input[contains(@class, 'vlocity-input') and @placeholder='Primer Apellido']")
+
+        # Forzar scroll al elemento
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        # Haz clic en el elemento (opcional para activarlo)
+        ActionChains(self.driver).move_to_element(element).click().perform()
+        # Ingresa el texto
+        element.send_keys(config.PAPELLIDO)
+
+        element = self.driver.find_element(By.XPATH, "//input[contains(@class, 'vlocity-input') and @placeholder='Segundo Apellido']")
+        # Ingresa el texto
+        element.send_keys(config.SAPELLIDO)
+
+#####################
         email_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="input23-289"]')))  # Ingreso de correo electrónico
         email_field.send_keys(config.EMAIL)
         self.enter_text(By.XPATH, '//*[@id="inputId-292"]', config.CIUDAD) # Datos de la ciudad
