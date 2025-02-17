@@ -23,7 +23,7 @@ class FormPage(BasePage):
         numero_identificacion = generar_identificacion_aleatoria()
         self.enter_text(By.XPATH, "//input[contains(@class, 'vlocity-input') and @type='text']", numero_identificacion)
 
-       # Ingresar texto en el input del combobox
+       # Datos de Asesor
         self.enter_text(
             By.XPATH,
             "//input[contains(@class, 'slds-input') and @role='combobox' and contains(@aria-autocomplete, 'list')]",
@@ -49,7 +49,7 @@ class FormPage(BasePage):
         print("Formulario inicial completado")
 
     def validate_second_form(self):
-        # Valida y completa el segundo formulario en el proceso de automatización.
+        # Valida y completa el segundo formulario
         # Args: driver (webdriver): Instancia del navegador en uso.
         wait = WebDriverWait(self.driver, 10)  # Espera explícita hasta que el formulario esté listo para ser validado.
         self.enter_text(
@@ -72,10 +72,11 @@ class FormPage(BasePage):
         # Ingresa el texto
         element.send_keys(config.SAPELLIDO)
 
-#####################
-        email_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="input23-289"]')))  # Ingreso de correo electrónico
-        email_field.send_keys(config.EMAIL)
-        self.enter_text(By.XPATH, '//*[@id="inputId-292"]', config.CIUDAD) # Datos de la ciudad
+        element_email = self.driver.find_element(By.XPATH, "//input[@required and @placeholder='Correo electrónico']")
+        element_email.send_keys(config.EMAIL)
+
+        self.enter_text(By.XPATH, '//*[@id="inputId-307"]', config.CIUDAD)  # Datos de la ciudad
+
         dropdown_option = WebDriverWait(self.driver, 10).until(  # Selección de la ciudad (con una espera explícita)
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='BOGOTA']")
@@ -83,17 +84,17 @@ class FormPage(BasePage):
         )
         ActionChains(self.driver).move_to_element(dropdown_option).perform()  # Desplazarse al elemento
         dropdown_option.click()  # Selección de la opción       
-        hidden_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input25-296"]')))  # validar que el departamento sea el correcto
+        hidden_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input25-311"]')))  # validar que el departamento sea el correcto
         hidden_value = hidden_field.get_attribute(config.DEPARTAMENTO)  # Obtener valor de un campo oculto
-        country_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input27-298"]'))) # validar que el pais sea el correcto
+        country_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="input27-313"]'))) # validar que el pais sea el correcto
         country_value = country_field.get_attribute(config.PAIS)  # Obtener valor de país
         input_field = WebDriverWait(self.driver, 10).until(  # Espera explícita hasta que el campo de teléfono esté presente en el DOM.
-            EC.presence_of_element_located((By.XPATH, '//*[@id="input33-304"]'))
+            EC.presence_of_element_located((By.XPATH, '//*[@id="input33-319"]'))
         )
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", input_field)  # Desplaza el campo de teléfono a la vista.
         self.driver.execute_script("arguments[0].click();", input_field)  # Hace clic en el campo de teléfono para activarlo.
         ActionChains(self.driver).move_to_element(input_field).click().send_keys(config.TELEFONO).perform()  # Mueve al campo de teléfono, hace clic y envía el número de teléfono.
-        self.enter_text(By.XPATH, '//*[@id="inputId-307"]', config.EVENTO) # Datos del evento
+        self.enter_text(By.XPATH, '//*[@id="inputId-322"]', config.EVENTO) # Datos del evento
         dropdown_option = WebDriverWait(self.driver, 10).until(  # Selección del evento (esperar la opción visible y hacer clic)
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='FERIA DEL LIBRO 2024']")

@@ -30,6 +30,6 @@ def test_consulta(driver):
     consulta.login()
     form.complete_form()
     form.validate_second_form()
-    pform.personal_form()
+    pform.personal_form_mayor()
     finan.perfil_financiero()
     metas.metas_fiancieras()

@@ -8,9 +8,10 @@ from selenium.webdriver.common.action_chains import ActionChains  # Permite real
 
 
 class PersonalFormPage(BasePage):
-    def personal_form(self):
+    def personal_form_mayor(self):
         self.enter_text(By.XPATH, "//input[@data-id='date-picker-slds-input']", '12/28/1984') # Ingresar la fecha en el campo de fecha usando el input de tipo date
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-351"]')  # Encuentra el combobox (desplegable) para seleccionar un valor.
+        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-366"]')  # Encuentra el combobox (desplegable) para seleccionar un valor.
+        time.sleep(5)
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el combobox a la vista.
         dropdown.click()  # Hace clic en el combobox para mostrar las opciones.
         wait = WebDriverWait(self.driver, 10)  # Configura la espera explícita para el siguiente paso.
@@ -20,21 +21,23 @@ class PersonalFormPage(BasePage):
         option.click()  # Hace clic en la opción "Masculino".
         radio = self.wait_for_element(By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")  # Espera hasta que el radio button sea visible.
         self.driver.execute_script("arguments[0].click();", radio)  # Usa Javascript para hacer clic en el radio button.
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-376"]')  # Encuentra el dropdown.
+        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-391"]')  # Encuentra el dropdown.
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el dropdown a la vista si es necesario.
         dropdown.click()  # Hace clic para desplegar las opciones del dropdown.
         wait = WebDriverWait(self.driver, 10)  # Configura la espera explícita para el siguiente paso.
         one_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="01"]]')))  # Espera hasta que la opción "01" sea clickeable.
         one_option.click()  # Hace clic en la opción "01".
-        time.sleep(2)  # Pausa de 2 segundos para garantizar que la acción se complete.
-        self.enter_text(By.XPATH, '//*[@id="input41-384"]', config.NOMBRED)  # Ingresa el nombre en el campo correspondiente.
-        self.enter_text(By.XPATH, '//*[@id="input43-386"]', config.PAPELLIDOD)  # Ingresa el primer apellido en el campo correspondiente.
-        self.enter_text(By.XPATH, '//*[@id="input45-388"]', config.SAPELLIDOD)  # Ingresa el segundo apellido en el campo correspondiente.
+        time.sleep(5)  # Pausa de 2 segundos para garantizar que la acción se complete.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[1]/slot/c-input/div/div[2]/input', config.NOMBRED)  # Ingresa el nombre en el campo correspondiente.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[2]/slot/c-input/div/div[2]/input', config.PAPELLIDOD)  # Ingresa el primer apellido en el campo correspondiente.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[3]/slot/c-input/div/div[2]/input', config.SAPELLIDOD)  # Ingresa el segundo apellido en el campo correspondiente.
+        time.sleep(5)
         self.select_dropdown_option(
-            (By.XPATH, '//*[@id="comboboxId-390"]'),
+            (By.XPATH, '//*[@id="comboboxId-405"]'),
             (By.XPATH, '//div[@role="option" and .//span[text()="Hijo/a"]]')
         )
-        date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-394"]')  # Encuentra el campo de fecha.
+
+        date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-409"]')  # Encuentra el campo de fecha.
         date_input.send_keys('01/18/1970')  # Ingresa la fecha manualmente (por ejemplo, 01/18/1970).
         time.sleep(8)  # Espera 8 segundos para asegurar que la fecha se haya ingresado correctamente.
         date_input.click()  # Hace clic en el campo para completar la interacción.
@@ -49,7 +52,7 @@ class PersonalFormPage(BasePage):
 
     def personal_form_menor(self):
         self.enter_text(By.XPATH, "//input[@data-id='date-picker-slds-input']", '12/28/1992') # Ingresar la fecha en el campo de fecha usando el input de tipo date
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-351"]')  # Encuentra el combobox (desplegable) para seleccionar un valor.
+        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-366"]')  # Encuentra el combobox (desplegable) para seleccionar un valor.
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el combobox a la vista.
         dropdown.click()  # Hace clic en el combobox para mostrar las opciones.
         wait = WebDriverWait(self.driver, 10)  # Configura la espera explícita para el siguiente paso.
@@ -59,22 +62,22 @@ class PersonalFormPage(BasePage):
         option.click()  # Hace clic en la opción "Masculino".
         radio = self.wait_for_element(By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")  # Espera hasta que el radio button sea visible.
         self.driver.execute_script("arguments[0].click();", radio)  # Usa Javascript para hacer clic en el radio button.
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-376"]')  # Encuentra el dropdown.
+        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-391"]')  # Encuentra el dropdown.
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el dropdown a la vista si es necesario.
         dropdown.click()  # Hace clic para desplegar las opciones del dropdown.
         wait = WebDriverWait(self.driver, 10)  # Configura la espera explícita para el siguiente paso.
         one_option = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@role="option" and .//span[text()="01"]]')))  # Espera hasta que la opción "01" sea clickeable.
         one_option.click()  # Hace clic en la opción "01".
-        time.sleep(2)  # Pausa de 2 segundos para garantizar que la acción se complete.
-        self.enter_text(By.XPATH, '//*[@id="input41-384"]', config.NOMBRED)  # Ingresa el nombre en el campo correspondiente.
-        self.enter_text(By.XPATH, '//*[@id="input43-386"]', config.PAPELLIDOD)  # Ingresa el primer apellido en el campo correspondiente.
-        self.enter_text(By.XPATH, '//*[@id="input45-388"]', config.SAPELLIDOD)  # Ingresa el segundo apellido en el campo correspondiente.
-        # Selecciona una opción dentro de un menú desplegable (dropdown)
-        self.select_dropdown_option(# Localiza el dropdown por su XPath
-            (By.XPATH, '//*[@id="comboboxId-390"]'),
-                (By.XPATH, '//div[@role="option" and .//span[text()="Hijo/a"]]') # Encuentra y selecciona la opción "Hijo/a" dentro del dropdown
+        time.sleep(5)  # Pausa de 2 segundos para garantizar que la acción se complete.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[1]/slot/c-input/div/div[2]/input', config.NOMBRED)  # Ingresa el nombre en el campo correspondiente.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[2]/slot/c-input/div/div[2]/input', config.PAPELLIDOD)  # Ingresa el primer apellido en el campo correspondiente.
+        self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[3]/slot/c-input/div/div[2]/input', config.SAPELLIDOD)  # Ingresa el segundo apellido en el campo correspondiente.
+        time.sleep(5)
+        self.select_dropdown_option(
+            (By.XPATH, '//*[@id="comboboxId-405"]'),
+            (By.XPATH, '//div[@role="option" and .//span[text()="Hijo/a"]]')
         )
-        date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-394"]')  # Encuentra el campo de fecha.
+        date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-409"]')  # Encuentra el campo de fecha.
         date_input.send_keys('01/18/2020')  # Ingresa la fecha manualmente (por ejemplo, 01/18/1970).
         date_input.click()  # Hace clic en el campo para completar la interacción.
         date_input.click()  # Hace clic en el campo para completar la interacción.
