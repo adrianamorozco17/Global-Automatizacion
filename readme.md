@@ -1,7 +1,7 @@
 # Proyecto de Automatización con Selenium y Pytest
 
-1. **Crear el entorno virtual**:
-   ```bash
+**Crear el entorno virtual**:
+```bash
 python -m venv venv
 source venv/bin/activate   # En Windows: venv\Scripts\activate
 
