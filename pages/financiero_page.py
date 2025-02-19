@@ -71,10 +71,19 @@ class FinancieroFormPage(BasePage):
             self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", image_element) # Desplazar la página hasta la imagen para asegurarse de que sea visible
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, image_xpath))).click() # Esperar a que la imagen sea clickeable y hacer clic
         # XPath del botón a hacer clic
+    
+    def button_siguiente(self):
         button_xpath = "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-formulary-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[6]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-custom-lwc[1]/slot[1]/c-global-onboarding-custom-button-cmp[1]/div[1]/button[2]"
         button_element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, button_xpath))) # Esperar a que el botón esté presente en el DOM
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", button_element) # Hacer scroll hasta el botón para asegurarnos de que sea visible
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, button_xpath))).click() # Esperar a que el botón sea clickeable y hacer clic
         time.sleep(30) # Espera 30 segundos para asegurar que la acción se haya completado.
         print("Validación Perfil Financiero")
+        pass
+
+    def button_anterior(self):
+        boton_regresar= WebDriverWait(self.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[text()='Anterior']"))
+        )
+        boton_regresar.click()       
         pass

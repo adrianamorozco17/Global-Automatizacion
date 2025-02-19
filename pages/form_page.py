@@ -41,6 +41,7 @@ class FormPage(BasePage):
         ActionChains(self.driver).move_to_element(dropdown_option).perform()
         dropdown_option.click()
 
+    def boton_siguiente(self):
         # Hacer clic en "Siguiente"
         next_button = self.wait_for_element(By.XPATH, "//button[.//span[text()='Siguiente']]")
         self.scroll_into_view(next_button)
@@ -60,7 +61,6 @@ class FormPage(BasePage):
         # Encuentra el elemento para "Primer Apellido"
        # Espera explícita hasta que el elemento esté presente en el DOM
         element = self.driver.find_element(By.XPATH,"//input[contains(@class, 'vlocity-input') and @placeholder='Primer Apellido']")
-
         # Forzar scroll al elemento
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
         # Haz clic en el elemento (opcional para activarlo)
@@ -107,9 +107,13 @@ class FormPage(BasePage):
         )
         self.driver.execute_script("arguments[0].scrollIntoView();", checkbox)  # Desplaza el checkbox a la vista.
         ActionChains(self.driver).move_to_element(checkbox).click().perform()  # Mueve al checkbox y lo selecciona.
+       
+    def boton_siguiente2(self):
         batons = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-custom-lwc/slot/c-global-onboarding-custom-button-cmp/div/button'))
         )  # Espera hasta que el botón "Siguiente" esté clickeable.
-        batons.click()  # Hace clic en el botón "Siguiente".
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", batons)  # Desplaza el campo de teléfono a la vista.
+        self.driver.execute_script("arguments[0].click();", batons)  # Hace clic en el campo de teléfono para activarlo.
         time.sleep(15)  # Espera 15 segundos para garantizar que la acción se complete.
         print("Validación Datos de contacto")
+        pass

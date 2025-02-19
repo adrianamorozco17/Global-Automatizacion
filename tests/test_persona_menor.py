@@ -29,7 +29,12 @@ def test_consulta_menor(driver):
     metas= MetasFormPage(driver)
     consulta.login()
     form.complete_form()
+    form.boton_siguiente()
     form.validate_second_form()
+    form.boton_siguiente2()
     pform.personal_form_menor()
+    pform.boton_guardar()
     finan.perfil_financiero()
+    finan.button_siguiente()
     metas.metas_fiancieras()
+

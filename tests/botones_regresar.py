@@ -8,6 +8,7 @@ from pages.form_page import FormPage
 from pages.personal_form_page import PersonalFormPage
 from pages.financiero_page import FinancieroFormPage
 from pages.metas_pages import MetasFormPage
+import time
 
 def setup_driver():
     service = Service(ChromeDriverManager().install())
@@ -33,7 +34,17 @@ def test_consulta(driver):
     form.validate_second_form()
     form.boton_siguiente2()
     pform.personal_form_mayor()
+    pform.button_regresar()
+    time.sleep(3)
+    form.boton_siguiente2()
     pform.boton_guardar()
+    time.sleep(13)
     finan.perfil_financiero()
+    finan.button_anterior()
+    time.sleep(3)
+    pform.boton_guardar()
     finan.button_siguiente()
+    time.sleep(3)
     metas.metas_fiancieras()
+    metas.button_regreso()
+    time.sleep(3)

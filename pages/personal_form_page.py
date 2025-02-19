@@ -39,8 +39,11 @@ class PersonalFormPage(BasePage):
 
         date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-409"]')  # Encuentra el campo de fecha.
         date_input.send_keys('01/18/1970')  # Ingresa la fecha manualmente (por ejemplo, 01/18/1970).
-        time.sleep(8)  # Espera 8 segundos para asegurar que la fecha se haya ingresado correctamente.
-        date_input.click()  # Hace clic en el campo para completar la interacción.
+        #time.sleep(5)  # Espera 5 segundos para asegurar que la acción se haya completado.
+        #date_input.click()  # Hace clic en el campo para completar la interacción.
+        pass
+
+    def boton_guardar(self):
         save_button = self.wait_for_element(By.XPATH, '//button[contains(text(), "Guardar y continuar")]')  # Espera hasta que el botón esté visible.
         self.driver.execute_script("arguments[0].scrollIntoView();", save_button)  # Desplaza el dropdown a la vista si es necesario.
         # Desplaza el botón a la vista si no está visible.
@@ -106,7 +109,7 @@ class PersonalFormPage(BasePage):
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", dropdown_inputs) # Desplaza la vista hacia el dropdown para asegurarse de que sea visible en pantalla
         dropdown_inputs.click() # Hace clic en el campo desplegable para mostrar las opciones disponibles       
         self.enter_text(By.XPATH, dropdown_xpaths, config.CALENDARIOE) # Ingresa el valor correspondiente al calendario escolar en el campo del dropdown
-       # Espera hasta que la opción "Calendario A (Enero - Diciembre)" sea visible en el desplegable
+        # Espera hasta que la opción "Calendario A (Enero - Diciembre)" sea visible en el desplegable
         opciones = WebDriverWait(self.driver, 10).until(  
             EC.visibility_of_element_located(
                 (By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='Calendario A (Enero - Diciembre)']")
@@ -115,11 +118,11 @@ class PersonalFormPage(BasePage):
             # 🔹 Esperar la opción dentro del dropdown y hacer clic en ella
         ActionChains(self.driver).move_to_element(opciones).perform()
         opciones.click()
+        pass
 
-        save_button = self.wait_for_element(By.XPATH, '//button[contains(text(), "Guardar y continuar")]')  # Espera hasta que el botón esté visible.
-        self.driver.execute_script("arguments[0].scrollIntoView();", save_button)  # Desplaza el dropdown a la vista si es necesario.
-        # Desplaza el botón a la vista si no está visible.
-        save_button.click()  # Hace clic en el botón para continuar.
-        time.sleep(5)  # Espera 5 segundos para asegurar que la acción se haya completado.
-        print("Validación Información Personal")
+    def button_regresar(self):
+        boton_anterior = WebDriverWait(self.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//div[@class='button-container']/button[1]"))
+        )
+        boton_anterior.click()  
         pass
