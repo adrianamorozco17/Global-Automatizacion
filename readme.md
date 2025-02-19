@@ -1,10 +1,11 @@
-# Proyecto de Automatización con Selenium y Pytest
+## Instalación
 
 **Crear el entorno virtual**:
 ```bash
 python -m venv venv
 source venv/bin/activate   # En Windows: venv\Scripts\activate
 
-**Instalar los requerimientos**:
+## Instalar los requerimientos:
 ```bash
-pip install -r requirements.txt
+python -m venv venv
+source venv/bin/activate   # En Windows: venv\Scripts\activate
