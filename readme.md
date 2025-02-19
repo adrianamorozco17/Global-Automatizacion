@@ -5,6 +5,6 @@
 python -m venv venv
 source venv/bin/activate   # En Windows: venv\Scripts\activate
 
-## Instalación de lso requerimientos
+**Instalar los requerimientos**:
 ```bash
 pip install -r requirements.txt
