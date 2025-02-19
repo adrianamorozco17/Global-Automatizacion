@@ -5,6 +5,6 @@
 python -m venv venv
 source venv/bin/activate   # En Windows: venv\Scripts\activate
 
-## Instalar los requerimientos:
+**Instalar los requerimientos**:
 python -m venv venv
 source venv/bin/activate   # En Windows: venv\Scripts\activate
