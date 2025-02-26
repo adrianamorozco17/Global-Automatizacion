@@ -177,21 +177,25 @@ class FormPage(BasePage):
         # Ingresa el texto
         element.send_keys(config.SAPELLIDO)
 
-        # Esperar a que el input del combobox esté visible y hacer clic para desplegar opciones
-        combobox_input = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//input[@role='combobox' and contains(@class, 'slds-input')]"))
+        combobox_tipo = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'slds-combobox__form-element')]//input"))
         )
-        combobox_input.click()
 
-        # Esperar a que la lista de opciones aparezca y seleccionar "CEDULA DE CIUDADANIA"
-        opcion = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@role='option']//span[text()='CEDULA DE CIUDADANIA']"))
+        combobox_tipo.click()
+
+        #Esperar a que se despliegue la lista de opciones
+        option_xpath = "//*[contains(@class, 'slds-listbox')]/descendant::*[contains(text(), 'CEDULA DE CIUDADANIA')]"
+
+        option = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, option_xpath))
         )
-        opcion.click()
+
+        #Hacer clic en la opción correcta
+        option.click()
 
         # Generar e ingresar número de identificación aleatorio
         numero_identificacion = generar_identificacion_aleatoria()
-        combobox_input.send_keys(numero_identificacion)
+        self.enter_text(By.XPATH,  "//input[@placeholder='Numero Documento' and @maxlength='11' and @minlength='7']", numero_identificacion)
 
 
         element_email = self.driver.find_element(By.XPATH, "//input[@required and @placeholder='Correo electrónico']")
