@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait # Manejo de esperas en Selenium
 from selenium.webdriver.support import expected_conditions as EC # Condiciones de espera explícitas
@@ -117,3 +118,76 @@ class CotizarFormPage(BasePage):
         )
         boton_anterior.click()  
         pass
+
+    def datos_colegio(self):
+        # Ingresar texto en el campo del colegio
+        self.enter_text(
+            By.XPATH,
+            "//input[contains(@class, 'slds-input') and @role='combobox' and contains(@aria-autocomplete, 'list')]",
+            config.COLEGIO  # Variable con el nombre del colegio a buscar
+        )
+        # Esperar y seleccionar la opción en el dropdown
+        opcion_colegio = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, '//div[@role="option" and contains(.//span, "COLEGIO CALENDARIO A COTIZACION")]')  # Ajusta el texto al colegio correcto
+            )
+        )
+        # Mover el cursor hasta la opción y seleccionarla
+        ActionChains(self.driver).move_to_element(opcion_colegio).perform()
+        opcion_colegio.click()
+        time.sleep(2)
+        icono_editar = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//c-icon[.//span[text()="Edit"]]')
+            )
+        )
+        # Crear la acción de clic
+        action = ActionChains(self.driver)
+        # Hacer el primer clic
+        action.move_to_element(icono_editar).click().perform()
+        # Pausa breve antes del segundo clic
+        time.sleep(2)  # Ajusta el tiempo si es necesario
+        # Hacer el segundo clic
+        action.move_to_element(icono_editar).click().perform()
+        time.sleep(2)  # Ajusta el tiempo si es necesario
+        # Esperar a que el input del combobox esté presente y hacer clic en el ícono para expandirlo
+        campo_icono = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//span[contains(@class, "slds-icon_container")]'))
+        )
+        campo_icono.click()
+
+        # Hacer clic en el ícono del combobox para desplegar las opciones
+        campo_icono = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//span[contains(@class, "slds-icon_container")]'))
+        )
+        self.driver.execute_script("arguments[0].click();", campo_icono)  # Click forzado con JS
+        # Espera hasta que el combobox sea visible y clickeable
+        wait = WebDriverWait(self.driver, 20)
+        # Esperar a que el input del combobox esté presente y hacer clic
+        combobox_input = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
+        combobox_input.click()
+
+        # Escribir el valor "Prekinder" (si el combobox permite texto)
+        combobox_input.send_keys("Prekinder")
+        combobox_input.send_keys(Keys.RETURN)  # Presiona Enter para seleccionar la opción
+
+        # Alternativamente, si hay una lista desplegable, selecciona la opción "Prekinder"
+        option_prekinder = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
+        option_prekinder.click()
+        print("Prekinder seleccionado correctamente")
+
+        self.enter_text(
+            By.XPATH,
+            "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input",
+            config.CURSO  # Variable con el nombre del colegio a buscar
+        )
+        option_prekinder.click()
+        # Esperar y seleccionar la opción en el dropdown
+        opcion_curso = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//li[contains(@class, 'slds-listbox__item')]//span[text()='Prekinder']")
+            )
+        )
+        ActionChains(self.driver).move_to_element(opcion_curso).perform()
+        opcion_curso.click()
+        pass    
