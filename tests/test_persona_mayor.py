@@ -45,4 +45,5 @@ def test_consulta(driver):
     cotizar.datos_beneficiario()
     cotizar.boton_guardar()
     cotizar.datos_colegio()
+    cotizar.boton_guardar()
     

@@ -108,7 +108,7 @@ class CotizarFormPage(BasePage):
         ActionChains(self.driver).move_to_element(boton_guardar).click().perform()
 
         # Otra pausa corta si es necesario antes de continuar con otros pasos
-        time.sleep(2)
+        time.sleep(10)
         print("Validación Información beneficiario")
         pass
 
@@ -165,29 +165,16 @@ class CotizarFormPage(BasePage):
         wait = WebDriverWait(self.driver, 20)
         # Esperar a que el input del combobox esté presente y hacer clic
         combobox_input = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
-        combobox_input.click()
-
+        time.sleep(2)
         # Escribir el valor "Prekinder" (si el combobox permite texto)
         combobox_input.send_keys("Prekinder")
         combobox_input.send_keys(Keys.RETURN)  # Presiona Enter para seleccionar la opción
-
+        time.sleep(2)
         # Alternativamente, si hay una lista desplegable, selecciona la opción "Prekinder"
         option_prekinder = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
         option_prekinder.click()
         print("Prekinder seleccionado correctamente")
-
-        self.enter_text(
-            By.XPATH,
-            "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[3]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input",
-            config.CURSO  # Variable con el nombre del colegio a buscar
-        )
-        option_prekinder.click()
-        # Esperar y seleccionar la opción en el dropdown
-        opcion_curso = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(
-                (By.XPATH, "//li[contains(@class, 'slds-listbox__item')]//span[text()='Prekinder']")
-            )
-        )
-        ActionChains(self.driver).move_to_element(opcion_curso).perform()
-        opcion_curso.click()
+        time.sleep(5)
         pass    
+
+
