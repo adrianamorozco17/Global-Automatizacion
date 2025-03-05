@@ -175,6 +175,4 @@ class CotizarFormPage(BasePage):
         option_prekinder.click()
         print("Prekinder seleccionado correctamente")
         time.sleep(5)
-        pass    
-
-
+        pass  

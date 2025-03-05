@@ -9,6 +9,7 @@ from pages.personal_form_page import PersonalFormPage
 from pages.financiero_page import FinancieroFormPage
 from pages.metas_pages import MetasFormPage
 from pages.cotizar_page import CotizarFormPage
+from pages.producto_page import ProductoFormPage
 
 def setup_driver():
     service = Service(ChromeDriverManager().install())
@@ -29,6 +30,7 @@ def test_consulta(driver):
     finan= FinancieroFormPage(driver)
     metas= MetasFormPage(driver)
     cotizar= CotizarFormPage(driver)
+    producto= ProductoFormPage(driver)
 
     consulta.login()
     form.complete_form()
@@ -46,4 +48,5 @@ def test_consulta(driver):
     cotizar.boton_guardar()
     cotizar.datos_colegio()
     cotizar.boton_guardar()
-    
+    producto.datos_producto()
+    producto.datos_producto_Segura_Plus()
