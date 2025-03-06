@@ -49,4 +49,4 @@ def test_consulta(driver):
     cotizar.datos_colegio()
     cotizar.boton_guardar()
     producto.datos_producto()
-    producto.datos_producto_Segura_Plus()
+    producto.datos_producto_segura_plus()

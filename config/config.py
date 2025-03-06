@@ -24,3 +24,6 @@ ESCOLARIDAD = "Primero"
 CALENDARIOE = "Calendario A (Enero - Diciembre)"
 COLEGIO = "COLEGIO CALENDARIO A"
 CURSO = "Prekinder"
+PRODUCTO1= 'Global Universidad Segura Plus'
+MES_TARIFA= 'Marzo'
+VALOR_ASEGURADO= '1.000.000'
