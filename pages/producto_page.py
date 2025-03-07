@@ -53,13 +53,15 @@ class ProductoFormPage(BasePage):
         #MES
         wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
         tarifa = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
+        self.driver.execute_script("arguments[0].scrollIntoView();", tarifa)
         self.driver.execute_script("arguments[0].click();", tarifa)
         tarifa.clear()
         tarifa.send_keys(config.MES_TARIFA)
-        tarifa = self.driver.find_element(By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")
+        tarifa.send_keys(Keys.RETURN)  # Simula presionar Enter
+        tarifa_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
+        ActionChains(self.driver).move_to_element(tarifa_option).click().perform()
         time.sleep(5)
         #asegurado
-        wait = WebDriverWait(self.driver, 30)  # Espera explícita de 30 segundos para que los elementos estén disponibles.
         valor_asegu = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[15]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))  
         self.driver.execute_script("arguments[0].scrollIntoView();", valor_asegu)
         valor_asegu.click()  
