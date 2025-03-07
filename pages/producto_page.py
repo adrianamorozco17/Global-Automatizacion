@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC # Condiciones d
 import time
 from config import config
 from selenium.webdriver.common.action_chains import ActionChains  # Permite realizar interacciones avanzadas
+from selenium.webdriver.common.keys import Keys
+
 
 
 class ProductoFormPage(BasePage):
@@ -31,29 +33,35 @@ class ProductoFormPage(BasePage):
     pass
 
     def datos_producto_segura_plus(self):
-        time.sleep(3)
-        wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
+        # Espera hasta que el campo sea clickeable y luego hace clic en él
+        wait = WebDriverWait(self.driver, 30)  # Espera hasta 30 segundos
         producto = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
-        producto.click()
+
+        # Asegura que el campo esté visible
         self.driver.execute_script("arguments[0].scrollIntoView();", producto)
+        producto.click()  # Hace clic en el campo
+
+        # Ingresa el texto y confirma con ENTER
         producto.send_keys(config.PRODUCTO1)
-        prod_option = wait.until(EC.visibility_of_element_located(
-        (
-            By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='Global Universidad Segura Plus']")
-        ))  # Espera hasta que la opción "0 a 4.000.000" sea visible.
-        ActionChains(self.driver).move_to_element(prod_option).perform()  # Desplaza el mouse sobre la opción.
-        prod_option.click()  # Hace clic en la opción seleccionada.
+        producto.send_keys(Keys.RETURN)  # Simula presionar Enter
+
+        # Espera hasta que la opción sea seleccionable y haz clic
+        prod_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
+        ActionChains(self.driver).move_to_element(prod_option).click().perform()
+
         time.sleep(5)
         #MES
         wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
         tarifa = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
         self.driver.execute_script("arguments[0].click();", tarifa)
+        tarifa.clear()
         tarifa.send_keys(config.MES_TARIFA)
-        tarifa = self.driver.find_element(Bsy.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")
+        tarifa = self.driver.find_element(By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")
         time.sleep(5)
         #asegurado
         wait = WebDriverWait(self.driver, 30)  # Espera explícita de 30 segundos para que los elementos estén disponibles.
         valor_asegu = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[15]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))  
+        self.driver.execute_script("arguments[0].scrollIntoView();", valor_asegu)
         valor_asegu.click()  
         valor_asegu.send_keys(config.VALOR_ASEGURADO)  # Ingresa el texto "1.000.000" en el campo de texto.
         # Selección de la opción en el desplegable (espera explícita)
