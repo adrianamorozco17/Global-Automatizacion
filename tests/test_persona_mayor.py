@@ -50,3 +50,13 @@ def test_consulta(driver):
     cotizar.boton_guardar()
     producto.datos_producto()
     producto.datos_producto_segura_plus()
+    producto.button_cotizar()
+    producto.simulador_producto_segura_plus()
+    producto.boton_anterior()
+    producto.datos_producto_segura_plus_semestre()
+    producto.button_cotizar()
+    producto.simulador_producto_segura_plus_semestre()
+    producto.boton_anterior()
+
+
+
