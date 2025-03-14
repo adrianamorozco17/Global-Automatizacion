@@ -12,14 +12,16 @@ from selenium.webdriver.common.keys import Keys
 class ProductoFormPage(BasePage):
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 20)  # Inicializar `wait` correctamente
+        self.wait = WebDriverWait(driver, 30)  # Inicializar `wait` correctamente
 
     def datos_producto(self):
         # Esperar a que el combobox sea visible y clickeable
         combobox_año = self.wait.until(EC.element_to_be_clickable((By.XPATH,
             "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-custom-lwc[1]/slot/c-gsv-year-select-cmp/lightning-combobox/div/div[1]/lightning-base-combobox/div/div/div[1]/button"))
         )
-        combobox_año.click()  # Desplegar el dropdown
+        self.driver.execute_script("arguments[0].scrollIntoView();", combobox_año)
+        time.sleep(5)
+        self.driver.execute_script("arguments[0].click();", combobox_año)
 
         # Esperar la opción del año 2038 y seleccionarla
         opcion_2038 = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//lightning-base-combobox-item[@data-value='2038']")))
@@ -39,13 +41,12 @@ class ProductoFormPage(BasePage):
         # Asegura que el campo esté visible
         self.driver.execute_script("arguments[0].scrollIntoView();", producto)
         producto.click()  # Hace clic en el campo
-
-        # Ingresa el texto y confirma con ENTER
-        producto.send_keys(config.PRODUCTO1)
-        producto.send_keys(Keys.RETURN)  # Simula presionar Enter
+        time.sleep(5)
         # Espera hasta que la opción sea seleccionable y haz clic
+        # Esperar a que la opción esté visible
         prod_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
-        ActionChains(self.driver).move_to_element(prod_option).click().perform()
+        # Crear acción para mover el cursor a la opción
+        ActionChains(self.driver).move_to_element(prod_option).pause(1).click().perform()  # Pausa breve antes de hacer clic
         time.sleep(5)
         #MES
         wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
@@ -83,12 +84,8 @@ class ProductoFormPage(BasePage):
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", producto2)
 
         producto2.click()  # Abre el combo box
-        producto2.clear()  # Limpia el campo antes de escribir
-        producto2.send_keys(config.PRODUCTO2)  # Escribe el texto para filtrar las opciones
-
-        #Esperar a que aparezca la opción correcta en la lista
-        option_xpath = "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li/div"
-        option_element = wait.until(EC.visibility_of_element_located((By.XPATH, option_xpath)))
+        prod_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
+        ActionChains(self.driver).move_to_element(prod_option).click().perform()
 
         #Hacer scroll hasta la opción (si es necesario) y hacer clic en ella
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", option_element)
@@ -368,18 +365,13 @@ class ProductoFormPage(BasePage):
     pass
 
     def boton_anterior(self):
-        # XPath para el botón "Anterior"
         boton_atras_xpath = "//button[span[text()='Anterior']]"
-
-        # Esperar hasta que el botón sea visible y clickeable
         boton_atras = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, boton_atras_xpath))
         )
 
-        # Hacer scroll hasta el botón (opcional, si no está visible)
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", boton_atras)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(boton_atras).click().perform()
 
-        # Hacer clic en el botón "Anterior"
-        boton_atras.click()
-        print("Botón 'Anterior' clickeado correctamente.")
+        print("Botón 'Anterior' clickeado con ActionChains.")
     pass
