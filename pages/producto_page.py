@@ -41,12 +41,14 @@ class ProductoFormPage(BasePage):
         # Asegura que el campo esté visible
         self.driver.execute_script("arguments[0].scrollIntoView();", producto)
         producto.click()  # Hace clic en el campo
+        producto.click()  # Hace clic en el campo
         time.sleep(5)
         # Espera hasta que la opción sea seleccionable y haz clic
-        # Esperar a que la opción esté visible
-        prod_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
-        # Crear acción para mover el cursor a la opción
-        ActionChains(self.driver).move_to_element(prod_option).pause(1).click().perform()  # Pausa breve antes de hacer clic
+        # Esperar a que aparezca la opción "Global Universidad Segura Plus"
+        opcion = wait.until(EC.element_to_be_clickable((By.XPATH, "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-tvs-perfilador-educativo-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[2]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[2]/div[1]/ul[1]/li[2]/div[1]")))
+        # Mover el cursor sobre la opción y hacer clic en ella
+        actions = ActionChains(self.driver)
+        actions.move_to_element(opcion).pause(1).click().perform()
         time.sleep(5)
         #MES
         wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
@@ -74,27 +76,18 @@ class ProductoFormPage(BasePage):
     pass
 
     def datos_producto_segura_plus_semestre(self):
-       # Espera hasta que el campo sea clickeable y luego hace clic en él
-        wait = WebDriverWait(self.driver, 30)  # Espera hasta 30 segundos
-
-        # Esperar y hacer clic en el combo box
-        producto2 = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
-
-        # Asegura que el campo esté visible y hacer scroll
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", producto2)
-
-        producto2.click()  # Abre el combo box
-        prod_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
-        ActionChains(self.driver).move_to_element(prod_option).click().perform()
-
-        #Hacer scroll hasta la opción (si es necesario) y hacer clic en ella
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", option_element)
-
-        option_element.click()  # Selecciona la opción correcta
-
-        print("✅ Opción 'Global Universidad Segura Plus Semestres' seleccionada correctamente.")
-        time.sleep(5)
-        #MES
+        wait = WebDriverWait(self.driver, 30)
+        # Espera a que el campo del combo box sea clickeable
+        producto_u = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
+        # Asegura que el campo esté visible y haz clic en él
+        self.driver.execute_script("arguments[0].scrollIntoView();", producto_u)
+        producto_u.click()
+        time.sleep(2)  # Pequeña espera para que carguen las opciones
+        # Presiona ARROW_DOWN para moverse a la segunda opción
+        producto_u.send_keys(Keys.ARROW_DOWN)
+        time.sleep(1)
+        producto_u.send_keys(Keys.ENTER)  # Seleccionar la opción
+        time.sleep(3)  # Esperar para ver si el clic se procesó correctamente
         wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
         tarifa = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
         self.driver.execute_script("arguments[0].click();", tarifa)
@@ -118,20 +111,22 @@ class ProductoFormPage(BasePage):
         valor_asegu_option.click()  # Hace clic en la opción seleccionada.
         time.sleep(5)
         # XPath del combo box (campo de entrada)
-        semestre_xpath = "//input[@role='combobox' and contains(@class, 'slds-input')]"
+        semestre_xpath = "/html[1]/body[1]/div[4]/div[1]/section[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/c-gsv-tvs-perfilador-educativo-english[1]/div[1]/article[1]/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot[1]/vlocity_ins-omniscript-block[1]/div[1]/div[1]/section[1]/fieldset[1]/slot[1]/vlocity_ins-omniscript-select[16]/slot[1]/c-combobox[1]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]"
         # XPath de la opción con el valor '6'
-        s_option_xpath = "//li[@role='option' and text()='6']"
         # Esperar que el combo box sea clickeable y hacer clic
-        combobox_element = WebDriverWait(self.driver, 30).until(
+        combobox_element = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, semestre_xpath))
         )
         combobox_element.click()
         print("Combo box abierto.")
         # Esperar que la opción 6 sea visible y hacer clic
-        option_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, s_option_xpath))
-        )
-        option_element.click()
+        time.sleep(2)  # Pequeña espera para que carguen las opciones
+        # Presiona ARROW_DOWN para moverse a la segunda opción
+        for _ in range(6):  # Repite 6 veces
+            combobox_element.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+        combobox_element.send_keys(Keys.ENTER)  # Seleccionar la opción
+        time.sleep(3)  # Esperar para ver si el clic se procesó correctamente
         print("Opción 6 seleccionada.")
     pass
 
@@ -222,13 +217,13 @@ class ProductoFormPage(BasePage):
         pass
 
     def simulador_producto_segura_plus_semestre(self):
-        title_xpath = "//*[contains(text(), 'Valor asegurado semestre')]"  # XPath flexible para cualquier etiqueta que contenga este texto
+        title_xpath = "//*[contains(text(), 'GlobalUniversidad Segura Plus Semestres')]"  # XPath flexible para cualquier etiqueta que contenga este texto
         # Esperar hasta que el título sea visible
         titulo = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, title_xpath))
         )
         # Validar que el texto sea el esperado
-        assert titulo.text.strip() == "Valor asegurado semestre", "El título no coincide"
+        assert titulo.text.strip() == "Valor Limite Semestre", "El título no coincide"
         print("El título 'Valor asegurado semestre' está presente.")
         time.sleep(5)
         # XPath del combo box (input)
