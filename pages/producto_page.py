@@ -7,8 +7,6 @@ from config import config
 from selenium.webdriver.common.action_chains import ActionChains  # Permite realizar interacciones avanzadas
 from selenium.webdriver.common.keys import Keys
 
-
-
 class ProductoFormPage(BasePage):
     def __init__(self, driver):
         self.driver = driver
@@ -130,6 +128,81 @@ class ProductoFormPage(BasePage):
         print("Opción 6 seleccionada.")
     pass
 
+    def datos_producto_gmprofesional(self):
+        wait = WebDriverWait(self.driver, 30)
+        # Espera a que el campo del combo box sea clickeable
+        producto_gm = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
+        # Asegura que el campo esté visible y haz clic en él
+        self.driver.execute_script("arguments[0].scrollIntoView();", producto_gm)
+        producto_gm.click()
+        time.sleep(2)  # Pequeña espera para que carguen las opciones
+        # Presiona ARROW_DOWN para moverse a la segunda opción
+        for _ in range(1):  # Repite 4 veces
+            producto_gm.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+        producto_gm.send_keys(Keys.ENTER)  # Seleccionar la opción
+        time.sleep(3)  # Esperar para ver si el clic se procesó correctamente
+        wait = WebDriverWait(self.driver, 30)  # Espera hasta 10 segundos
+        tarifa = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))
+        self.driver.execute_script("arguments[0].click();", tarifa)
+        tarifa.clear()
+        tarifa.send_keys(config.MES_TARIFA)
+        tarifa.send_keys(Keys.RETURN)  # Simula presionar Enter
+        tarifa_option = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[8]/slot/c-combobox/div/div/div[2]/div[2]/div/ul/li[2]/div/span/span")))
+        ActionChains(self.driver).move_to_element(tarifa_option).click().perform()
+        time.sleep(5)
+        #asegurado
+        valor_asegu = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[15]/slot/c-combobox/div/div/div[2]/div[1]/div/input")))  
+        self.driver.execute_script("arguments[0].scrollIntoView();", valor_asegu)
+        valor_asegu.click()  
+        valor_asegu.send_keys(config.VALOR_ASEGURADO3)  # Ingresa el texto "4.000.000" en el campo de texto.
+        # Selección de la opción en el desplegable (espera explícita)
+        valor_asegu_option = wait.until(EC.visibility_of_element_located(
+        (
+            By.XPATH, "//span[contains(@class, 'slds-listbox__option-text') and text()='4.000.000']")
+        ))  # Espera hasta que la opción "0 a 4.000.000" sea visible.
+        ActionChains(self.driver).move_to_element(valor_asegu_option).perform()  # Desplaza el mouse sobre la opción.
+        valor_asegu_option.click()  # Hace clic en la opción seleccionada.
+        time.sleep(5)
+        # XPath del combo box (campo de entrada)
+        años_xpath = "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-custom-lwc[2]/slot/c-gsv-custom-num-year-prof/lightning-combobox/div/div[1]/lightning-base-combobox/div/div/div[1]"
+        # XPath de la opción con el valor '6'
+        # Esperar que el combo box sea clickeable y hacer clic
+        combobox_element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, años_xpath))
+        )
+        combobox_element.click()
+        print("Combo box abierto.")
+        # Esperar que la opción 6 sea visible y hacer clic
+        time.sleep(2)  # Pequeña espera para que carguen las opciones
+        # Presiona ARROW_DOWN para moverse a la segunda opción
+        for _ in range(4):  # Repite 4 veces
+            combobox_element.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+        combobox_element.send_keys(Keys.ENTER)  # Seleccionar la opción
+        time.sleep(3)  # Esperar para ver si el clic se procesó correctamente
+        print("Opción 4 seleccionada.")
+        time.sleep(5)
+        # XPath del combo box (campo de entrada)
+        peri_xpath = "/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-tvs-perfilador-educativo-english/div/article/div[2]/vlocity_ins-omniscript-step[4]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[18]/slot/c-combobox/div/div/div[2]/div[1]/div/input"
+        # XPath de la opción con el valor '6'
+        # Esperar que el combo box sea clickeable y hacer clic
+        peri_element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, peri_xpath))
+        )
+        peri_element.click()
+        print("Combo box abierto.")
+        # Esperar que la opción 6 sea visible y hacer clic
+        time.sleep(2)  # Pequeña espera para que carguen las opciones
+        # Presiona ARROW_DOWN para moverse a la segunda opción
+        for _ in range(3):  # Repite 4 veces
+            peri_element.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+        peri_element.send_keys(Keys.ENTER)  # Seleccionar la opción
+        time.sleep(3)  # Esperar para ver si el clic se procesó correctamente
+        print("Opción 4 seleccionada.")
+    pass
+
     def simulador_producto_segura_plus(self):
         title_xpath = "//*[contains(text(), 'Valor asegurado semestre')]"  # XPath flexible para cualquier etiqueta que contenga este texto
         # Esperar hasta que el título sea visible
@@ -152,55 +225,10 @@ class ProductoFormPage(BasePage):
         )
         combobox_element.click()
         print("Combo box abierto.")
-
-        # Esperar que la opción de 5,000,000 esté visible y hacer clic
-        option_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, option_xpath))
-        )
-        option_element.click()
-        print("Seleccionada la opción 5000000.")
-        time.sleep(5)
-        title_xpath = "//*[contains(text(), 'Año de maduración')]"  # Busca cualquier etiqueta con este texto
+        time.sleep(10)
+        texto_xpath = "//*[contains(text(), '$ 24.230.000,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
         # Esperar hasta que el texto sea visible en la página
-        titulo_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, title_xpath))
-        )
-
-        # Validar que el texto encontrado sea el esperado
-        assert titulo_element.text.strip() == "Año de maduración", "El texto 'Año de maduración' no está presente."
-        print("El texto 'Año de maduración' está presente en la página.")
-        time.sleep(5)
-        # XPath del campo de texto basado en su clase
-        input_xpath = "//input[contains(@class, 'vlocity-input') and contains(@class, 'slds-input')]"
-        # Esperar hasta que el campo sea visible y clickeable
-        input_element = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, input_xpath))
-        )
-        # Limpiar el campo (por si tiene un valor previo)
-        input_element.clear()
-        # Ingresar el año 2028
-        input_element.send_keys("2035")
-        print("Año 2028 ingresado correctamente en el campo.")
-        spinner_xpath = "//lightning-spinner[contains(@class, 'slds-spinner_container')]"
-        WebDriverWait(self.driver, 20).until(
-            EC.invisibility_of_element_located((By.XPATH, spinner_xpath))
-        )
-        print("Spinner de carga desapareció.")
-        # XPath del contenedor del valor total
-        total_container_xpath = "//div[contains(@class, 'vloc-ins-coverages-amount-container')]"
-        # Esperar que el contenedor sea visible
-        total_container_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, total_container_xpath))
-        )
-        # Hacer scroll hasta el elemento
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", total_container_element)
-        # Hacer clic en el contenedor del valor total
-        total_container_element.click()
-        print("Se hizo clic en el contenedor del valor total correctamente.")
-        time.sleep(5)
-        texto_xpath = "//*[contains(text(), '$ 29.762.000,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
-        # Esperar hasta que el texto sea visible en la página
-        print("El texto '$ 29.762.000,00' está presente en la página.")
+        print("El texto '$ 24.230.000,00' está presente en la página.")
         time.sleep(5)
         # XPath basado en el texto "NO"
         si_xpath = "//label[span[text()='NO']]"
@@ -223,14 +251,12 @@ class ProductoFormPage(BasePage):
             EC.visibility_of_element_located((By.XPATH, title_xpath))
         )
         # Validar que el texto sea el esperado
-        assert titulo.text.strip() == "Valor Limite Semestre", "El título no coincide"
-        print("El título 'Valor asegurado semestre' está presente.")
+        assert titulo.text.strip() == "GlobalUniversidad Segura Plus Semestres", "El título no coincide"
+        print("El título 'GlobalUniversidad Segura Plus Semestres' está presente.")
         time.sleep(5)
-        # XPath del combo box (input)
         combobox_xpath = "//input[contains(@class, 'slds-input') and @role='combobox']"
-
         # XPath de la opción con el valor '2000000'
-        option_xpath = "//span[contains(@class, 'slds-listbox__option-text') and text()='2.000.000']"
+        option_xpath = "//span[contains(@class, 'slds-listbox__option-text') and text()='3.000.000']"
 
         # Esperar que el combo box sea clickeable y hacer clic
         combobox_element = WebDriverWait(self.driver, 10).until(
@@ -244,76 +270,11 @@ class ProductoFormPage(BasePage):
             EC.visibility_of_element_located((By.XPATH, option_xpath))
         )
         option_element.click()
-        print("Seleccionada la opción 2000000.")
+        print("Seleccionada la opción 3000000.")
         time.sleep(5)
-        title_xpath = "//*[contains(text(), 'Año de maduración')]"  # Busca cualquier etiqueta con este texto
+        texto_xpath = "//*[contains(text(), '$ 14.538.000,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
         # Esperar hasta que el texto sea visible en la página
-        titulo_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, title_xpath))
-        )
-
-        # Validar que el texto encontrado sea el esperado
-        assert titulo_element.text.strip() == "Año de maduración", "El texto 'Año de maduración' no está presente."
-        print("El texto 'Año de maduración' está presente en la página.")
-        time.sleep(5)
-        # XPath del campo de texto basado en su clase
-        input_xpath = "//input[contains(@class, 'vlocity-input') and contains(@class, 'slds-input')]"
-        # Esperar hasta que el campo sea visible y clickeable
-        input_element = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, input_xpath))
-        )
-        # Limpiar el campo (por si tiene un valor previo)
-        input_element.clear()
-        # Ingresar el año 2040
-        input_element.send_keys("2040")
-        print("Año 2040 ingresado correctamente en el campo.")
-        spinner_xpath = "//lightning-spinner[contains(@class, 'slds-spinner_container')]"
-        WebDriverWait(self.driver, 20).until(
-            EC.invisibility_of_element_located((By.XPATH, spinner_xpath))
-        )
-        print("Spinner de carga desapareció.")
-        # XPath del contenedor del valor total
-        total_container_xpath = "//div[contains(@class, 'vloc-ins-coverages-amount-container')]"
-        # Esperar que el contenedor sea visible
-        total_container_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, total_container_xpath))
-        )
-        # Hacer scroll hasta el elemento
-        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", total_container_element)
-        # Hacer clic en el contenedor del valor total
-        total_container_element.click()
-        print("Se hizo clic en el contenedor del valor total correctamente.")
-        time.sleep(5)
-        title_xpath = "//*[contains(text(), 'Cantidad de semestres')]"  # Busca cualquier etiqueta con este texto
-        # Esperar hasta que el texto sea visible en la página
-        titulo_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, title_xpath))
-        )
-
-        # Validar que el texto encontrado sea el esperado
-        assert titulo_element.text.strip() == "Cantidad de semestres", "El texto 'Cantidad de semestres' no está presente."
-        print("El texto 'Cantidad de semestres' está presente en la página.")
-        time.sleep(5)
-        # XPath del combo box (campo de entrada)
-        combobox_xpath = "//input[@role='combobox' and contains(@class, 'slds-input')]"
-        # XPath de la opción "3" dentro de la lista desplegable
-        option_xpath = "//li[@role='option' and text()='3']"
-        # Esperar que el combo box sea clickeable y hacer clic para abrir la lista
-        combobox_element = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, combobox_xpath))
-        )
-        combobox_element.click()
-        print("Combo box abierto.")
-        # Esperar que la opción 3 sea visible y hacer clic en ella
-        option_element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, option_xpath))
-        )
-        option_element.click()
-        time.sleep(5)
-        print("Opción 3 seleccionada.")
-        texto_xpath = "//*[contains(text(), '$ 0,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
-        # Esperar hasta que el texto sea visible en la página
-        print("El texto '$ 0,00' está presente en la página.")
+        print("El texto '$ 14.538.000,00' está presente en la página.")
         time.sleep(5)
 
         # XPath basado en el texto "NO"
@@ -330,6 +291,75 @@ class ProductoFormPage(BasePage):
         time.sleep(5)
         pass
 
+    def simulador_producto_gmprofesional(self):
+        # Esperar hasta que el título sea visible
+        time.sleep(5)
+        combobox_xpath = "//input[contains(@class, 'slds-input') and @role='combobox']"
+        # XPath de la opción con el valor '2000000'
+        option_xpath = "//span[contains(@class, 'slds-listbox__option-text') and text()='3.000.000']"
+
+        # Esperar que el combo box sea clickeable y hacer clic
+        combobox_element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, combobox_xpath))
+        )
+        combobox_element.click()
+        print("Combo box abierto.")
+
+        # Esperar que la opción de 5,000,000 esté visible y hacer clic
+        option_element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, option_xpath))
+        )
+        option_element.click()
+        print("Seleccionada la opción 3000000.")
+
+        time.sleep(5)
+        comboboxa_xpath = "//input[contains(@class, 'slds-input') and @role='combobox']"
+        # XPath de la opción con el valor '2000000'
+        optiona_xpath = "//span[contains(@class, 'slds-listbox__option-text') and text()='3']"
+
+        # Esperar que el combo box sea clickeable y hacer clic
+        comboboxa_element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, comboboxa_xpath))
+        )
+        comboboxa_element.click()
+        print("Combo box abierto.")
+
+        # Esperar que la opción de 5,000,000 esté visible y hacer clic
+        optiona_element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, optiona_xpath))
+        )
+        optiona_element.click()
+        print("Seleccionada la opción 3.")
+
+        time.sleep(5)
+        comboboxp_xpath = "//input[contains(@class, 'slds-input') and @role='combobox']"
+        # XPath de la opción con el valor '2000000'
+        optionp_xpath = "//span[contains(@class, 'slds-listbox__option-text') and text()='Trimestral']"
+
+        # Esperar que el combo box sea clickeable y hacer clic
+        comboboxp_element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, comboboxp_xpath))
+        )
+        comboboxp_element.click()
+        print("Combo box abierto.")
+
+        # Esperar que la opción de 5,000,000 esté visible y hacer clic
+        optionp_xpath = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, optionp_xpath))
+        )
+        optionp_xpath.click()
+        print("Seleccionada la opción Trimestral.")
+        time.sleep(5)
+
+        texto_xpath = "//*[contains(text(), '$ 1.467.000,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
+        # Esperar hasta que el texto sea visible en la página
+        print("El texto '$ 1.467.000,00'' está presente en la página.")
+        time.sleep(5)
+        texto_xpath = "//*[contains(text(), '$ 1.467.000,00')]"  # Busca cualquier etiqueta que contenga el texto exacto
+        # Esperar hasta que el texto sea visible en la página
+        print("El texto '$ 11.467.000,00' está presente en la página.")
+        time.sleep(5)
+        pass
 
     def button_cotizar(self):
         button_xpath = "//button[span[text()='Cotizar']]"  # XPath basado en el texto del botón

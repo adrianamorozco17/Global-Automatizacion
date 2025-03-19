@@ -31,7 +31,6 @@ def test_consulta(driver):
     metas= MetasFormPage(driver)
     cotizar= CotizarFormPage(driver)
     producto= ProductoFormPage(driver)
-
     consulta.login()
     form.complete_form()
     form.boton_siguiente()
@@ -55,8 +54,9 @@ def test_consulta(driver):
     producto.boton_anterior()
     producto.datos_producto_segura_plus_semestre()
     producto.button_cotizar()
-    #producto.simulador_producto_segura_plus_semestre()
-    #producto.boton_anterior()
-
-
-
+    producto.simulador_producto_segura_plus_semestre()
+    producto.boton_anterior()
+    producto.datos_producto_gmprofesional()
+    producto.button_cotizar()
+    producto.simulador_producto_gmprofesional()
+    producto.boton_anterior()

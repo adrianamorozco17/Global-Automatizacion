@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class ConsultaPage(BasePage):
     def login(self):
-        self.open_url("https://globalseguros--qaonb.sandbox.my.salesforce.com/")
+        self.open_url(config.BASE_URL)
         self.enter_text(By.CSS_SELECTOR, "input[name='username']", config.USERNAME)
         self.enter_text(By.ID, 'password', config.PASSWORD)
         self.click_element(By.CSS_SELECTOR, "input[id='Login']")
@@ -20,7 +20,7 @@ class ConsultaPage(BasePage):
 
     def complete_form(self):
         """ Completa el formulario inicial """
-        target_url = "https://globalseguros--qaonb.sandbox.lightning.force.com/lightning/cmp/vlocity_ins__vlocityLWCOmniWrapper?c__target=c%3AgsvFormularyEnglish&c__layout=lightning&c__tabLabel=Perfilamiento"
+        target_url = config.TARGET_URL
         self.open_url(target_url)
 
         # Seleccionar opción en el dropdown

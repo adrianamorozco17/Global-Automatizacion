@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains  # Permite real
 class PersonalFormPage(BasePage):
     def personal_form_mayor(self):
         self.enter_text(By.XPATH, "//input[@data-id='date-picker-slds-input']", '12/28/1984') # Ingresar la fecha en el campo de fecha usando el input de tipo date
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-366"]')  # Encuentra el combobox (desplegable) para seleccionar un valor.
+        dropdown = self.driver.find_element(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input')  # Encuentra el combobox (desplegable) para seleccionar un valor.
         time.sleep(5)
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el combobox a la vista.
         dropdown.click()  # Hace clic en el combobox para mostrar las opciones.
@@ -21,7 +21,7 @@ class PersonalFormPage(BasePage):
         option.click()  # Hace clic en la opción "Masculino".
         radio = self.wait_for_element(By.XPATH, "//input[@type='radio' and @value='Pareja con hijos menores de edad']")  # Espera hasta que el radio button sea visible.
         self.driver.execute_script("arguments[0].click();", radio)  # Usa Javascript para hacer clic en el radio button.
-        dropdown = self.driver.find_element(By.XPATH, '//*[@id="comboboxId-391"]')  # Encuentra el dropdown.
+        dropdown = self.driver.find_element(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[2]/slot/c-combobox/div/div/div[2]/div[1]/div/input')  # Encuentra el dropdown.
         self.driver.execute_script("arguments[0].scrollIntoView();", dropdown)  # Desplaza el dropdown a la vista si es necesario.
         dropdown.click()  # Hace clic para desplegar las opciones del dropdown.
         wait = WebDriverWait(self.driver, 10)  # Configura la espera explícita para el siguiente paso.
@@ -33,11 +33,11 @@ class PersonalFormPage(BasePage):
         self.enter_text(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-text[3]/slot/c-input/div/div[2]/input', config.SAPELLIDOD)  # Ingresa el segundo apellido en el campo correspondiente.
         time.sleep(5)
         self.select_dropdown_option(
-            (By.XPATH, '//*[@id="comboboxId-405"]'),
+            (By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-select[1]/slot/c-combobox/div/div/div[2]/div[1]/div/input'),
             (By.XPATH, '//div[@role="option" and .//span[text()="Hijo/a"]]')
         )
 
-        date_input = self.driver.find_element(By.XPATH, '//*[@id="date-input-409"]')  # Encuentra el campo de fecha.
+        date_input = self.driver.find_element(By.XPATH, '/html/body/div[4]/div[1]/section/div[1]/div[2]/div[2]/div[1]/div/div/div/div/div/c-gsv-formulary-english/div/article/div[2]/vlocity_ins-omniscript-step[5]/div[3]/slot/vlocity_ins-omniscript-block/div/div/section/fieldset/slot/vlocity_ins-omniscript-block[1]/div/div/section/fieldset/slot/vlocity_ins-omniscript-date/slot/c-input/c-date-picker/div/div/fieldset/div/div/div/div/div/div[2]/input')  # Encuentra el campo de fecha.
         date_input.send_keys('01/18/1970')  # Ingresa la fecha manualmente (por ejemplo, 01/18/1970).
         #time.sleep(5)  # Espera 5 segundos para asegurar que la acción se haya completado.
         #date_input.click()  # Hace clic en el campo para completar la interacción.

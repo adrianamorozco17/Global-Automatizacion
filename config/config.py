@@ -1,16 +1,16 @@
-BASE_URL = "https://globalseguros--qaonb.sandbox.my.salesforce.com/"
-TARGET_URL = "https://globalseguros--qaonb.sandbox.lightning.force.com/lightning/cmp/vlocity_ins__vlocityLWCOmniWrapper?c__target=c%3AgsvFormularyEnglish&c__layout=lightning&c__tabLabel=Perfilamiento"
+BASE_URL = "https://globalseguros--halfcopy.sandbox.lightning.force.com/lightning/page/home"
+TARGET_URL = "https://globalseguros--halfcopy.sandbox.lightning.force.com/lightning/cmp/vlocity_ins__vlocityLWCOmniWrapper?c__target=c%3AgsvFormularyEnglish&c__layout=lightning&c__tabLabel=Perfilamiento"
 
-USERNAME = "jcsuarez@ext.globalseguros.co"
+USERNAME = "jcsuarez@ext.globalseguros.co.halfcopy"
 PASSWORD = "+18Stavros"
 
 # Otros valores configurables
-ASESOR = "PROYECTA-T LTDA-BOGOTA"
+ASESOR = "LOGAM SEGUROS LIMITADA - 9945"
 NOMBRE= "Juan"
 PAPELLIDO="Juanito"
 SAPELLIDO= "Gomez"
 EMAIL= "test@example.com"
-CIUDAD= "BOGOTA"
+CIUDAD= "BOGO"
 DEPARTAMENTO= "DISTRITO CAPITAL"
 PAIS= "Colombia"
 TELEFONO= "(312) 211-2112"
@@ -29,3 +29,4 @@ PRODUCTO2= 'Global Universidad Segura Plus Semestres'
 MES_TARIFA= 'Marzo'
 VALOR_ASEGURADO= '5.000.000'
 VALOR_ASEGURADO2= '2.000.000'
+VALOR_ASEGURADO3= '4.000.000'
