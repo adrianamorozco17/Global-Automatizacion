@@ -59,4 +59,5 @@ def test_consulta(driver):
     producto.datos_producto_gmprofesional()
     producto.button_cotizar()
     producto.simulador_producto_gmprofesional()
-    producto.boton_anterior()
+    producto.button_cotizar()
+    producto.button_finalizar()
